@@ -1,0 +1,1 @@
+web: gunicorn confi.wsgi --log-file -
