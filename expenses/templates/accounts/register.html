@@ -1,0 +1,47 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
+
+    <!-- Bootstrap core CSS -->
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+    crossorigin="anonymous"
+  />
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <form class="form-signin">
+  <div class="text-center mb-4">
+    
+
+    <img class="mb-4" src="https://gravatar.com/avatar/aecc30b3113e40d8d82ad10788359f94?s=200&d=mp&r=x" style="border-radius: 50%;" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+  </div>
+
+  <div class="form-label-group">
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <label for="inputEmail">Email address</label>
+  </div>
+
+  <div class="form-label-group">
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <label for="inputPassword">Password</label>
+  </div>
+
+  <div class="form-label-group">
+    <input type="password" id="inputPassword2" class="form-control" placeholder="Confirm Password" required>
+    <label for="inputPassword">Confirm Password</label>
+  </div>
+ 
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted text-center">&copy;2020. All rights reserved.</p>
+</form>
+</body>
+</html>
