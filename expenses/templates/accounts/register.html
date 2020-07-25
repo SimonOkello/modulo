@@ -15,10 +15,10 @@
           </div>
           <p class="login-card-description">Create an account</p>
           <form method = "POST">
-            <!-- {% csrf_token %} -->
+            {% csrf_token %}
             <div class="form-group">
               <label for="email" class="sr-only">Username</label>
-              <input type="email" name="username" id="usernameField" class="form-control" placeholder="Username">
+              {{form.username}}
             </div>
             <div class=" text-danger invalid_feedback" style="display: none;">
              
@@ -26,7 +26,7 @@
             <p class="text-sm text-success usernameSuccessOutput"></p>
               <div class="form-group">
                 <label for="email" class="sr-only">Email</label>
-                <input type="email" name="email" id="emailField" class="form-control" placeholder="Email address">
+                {{form.email}}
               </div>
               <div class="invalidEmail_feedback" style="display: none;">
              
@@ -34,14 +34,15 @@
               <p class="text-sm text-success emailSuccessOutput"></p>
               <div class="form-group mb-4">
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" name="password" id="passwordField" class="form-control" placeholder="***********">
+                {{form.password1}}
               </div>
               <small class="float-right py-3 showPassword">Show</small>
-              <!-- <div class="form-group mb-4">
+              <div class="form-group mb-4">
                 <label for="password" class="sr-only">Confrim Password</label>
-                <input type="password" name="password2" id="password2" class="form-control" placeholder="***********">
-              </div> -->
-              <input name="register" id="register" class="btn btn-block login-btn mb-4" type="button" value="Register">
+                {{form.password2}}
+              </div>
+              {% include 'expenses/_form_errors.html' %}
+              <input name="register" id="submitBtn" class="btn btn-block login-btn mb-4" type="submit" value="Register">
             </form>
             <p class="login-card-footer-text">Already have an account? <a href="{% url 'login' %}" class="text-reset">Login here</a></p>
             <nav class="login-card-footer-nav">

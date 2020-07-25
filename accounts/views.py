@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib import messages
 import json
 from validate_email import validate_email
 # Create your views here.
+from .forms import CreateUserForm
 
 
 class UsernameValidationView(View):
@@ -40,8 +42,19 @@ class LoginView(View):
     def get(self, request):
         return render(request, 'accounts/login.html', {})
 
+    def post(self, request):
+        messages.success(request, 'Nice Try There!')
+        return render(request, 'accounts/login.html', {})
 
-class Register(View):
 
-    def get(self, request):
-        return render(request, 'accounts/register.html', {})
+def regiterUser(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + username)
+            return redirect('login')
+
+    return render(request, 'accounts/register.html', {'form': form})

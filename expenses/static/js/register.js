@@ -5,7 +5,8 @@ const feedBackArea = document.querySelector(".invalid_feedback");
 const emailFeedBackArea = document.querySelector(".invalidEmail_feedback");
 const usernameSuccessOutput = document.querySelector(".usernameSuccessOutput");
 const emailSuccessOutput = document.querySelector(".emailSuccessOutput");
-const showPassword = document.querySelector(".showPassword")
+const showPassword = document.querySelector(".showPassword");
+const submitBtn = document.querySelector("#submitBtn");
 
 // Username Validation
 usernameField.addEventListener("keyup", (e) => {
@@ -23,13 +24,15 @@ usernameField.addEventListener("keyup", (e) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         usernameSuccessOutput.style.display = "none";
 
         if (data.username_error) {
+          submitBtn.disabled = true;
           feedBackArea.style.display = "block";
           usernameField.classList.add("is-invalid");
           feedBackArea.innerHTML = `<p>${data.username_error}</p>`;
+        } else {
+          submitBtn.removeAttribute("disabled");
         }
       });
   }
@@ -52,27 +55,27 @@ emailField.addEventListener("keyup", (e) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         emailSuccessOutput.style.display = "none";
         if (data.email_error) {
+          submitBtn.disabled = true;
           emailFeedBackArea.style.display = "block";
           emailField.classList.add("is-invalid");
           emailFeedBackArea.innerHTML = `<p>${data.email_error}</p>`;
+        } else {
+          submitBtn.removeAttribute("disabled");
         }
       });
   }
 });
- 
-const handleToggleInput = (e)=>{
-    if(showPassword.textContent==="Show"){
-        showPassword.textContent="Hide"
-        passwordField.setAttribute("type", "text");
-    }else{
-        showPassword.textContent="Show"
-        passwordField.setAttribute("type", "password");
-    }
 
+const handleToggleInput = (e) => {
+  if (showPassword.textContent === "Show") {
+    showPassword.textContent = "Hide";
+    passwordField.setAttribute("type", "text");
+  } else {
+    showPassword.textContent = "Show";
+    passwordField.setAttribute("type", "password");
+  }
 };
 
 showPassword.addEventListener("click", handleToggleInput);
-
