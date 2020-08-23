@@ -28,29 +28,51 @@
       </div>
     </div>
   </div>
+  {% include 'expenses/_messages.html' %}
+  <div class="default-table">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Category</th>
+          <th scope="col">Description</th>
+          <th scope="col">Amount ({{currency}})</th>
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
+  
+        </tr>
+      </thead>
+      <tbody>
+        {% for expense in page_obj %}
+        <tr>
+          <td>{{expense.category}}</td>
+          <td>{{expense.description}}</td>
+          <td>{{expense.amount}}</td>
+          <td>{{expense.date}}</td>
+          <td><a href="{% url 'edit-expense' expense.id %}" class="btn btn-primary btn-sm">Edit</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="no-results" style="display: none;">No results </p>
+<div class="table-output">
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Category</th>
         <th scope="col">Description</th>
-        <th scope="col">Amount</th>
+        <th scope="col">Amount({{currency}})</th>
         <th scope="col">Date</th>
-        <th scope="col">Action</th>
+        <!-- <th scope="col">Action</th> -->
 
       </tr>
     </thead>
-    <tbody>
-      {% for expense in page_obj %}
-      <tr>
-        <td>{{expense.category}}</td>
-        <td>{{expense.description}}</td>
-        <td>{{expense.amount}}</td>
-        <td>{{expense.date}}</td>
-        <td><a href="{% url 'edit-expense' expense.id %}" class="btn btn-primary btn-sm">Edit</a></td>
-      </tr>
-      {% endfor %}
+    <tbody class="table-body">
+
     </tbody>
   </table>
+</div>
+
   <div class="pagination-container">
     <div class="">
       Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}

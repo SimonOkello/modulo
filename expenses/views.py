@@ -7,17 +7,19 @@ from django.http import JsonResponse
 
 # Create your views here.
 from .models import Category, Expense
+from usersettings.models import userSetting
 
 
 @login_required(login_url='/auth/login/')
 def index(request):
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
+    currency = userSetting.objects.get(user=request.user).currency
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page', 1)
     page_obj = Paginator.get_page(paginator, page_number)
     context = {'categories': categories,
-               'expenses': expenses, 'page_obj': page_obj}
+               'expenses': expenses, 'page_obj': page_obj, 'currency':currency}
     return render(request, 'expenses/index.html', context)
 
 

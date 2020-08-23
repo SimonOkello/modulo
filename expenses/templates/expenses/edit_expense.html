@@ -31,7 +31,6 @@
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Description</label>
           <input type="text" class="form-control" name="description" value = "{{values.description}}" placeholder="Describe the expense">
-          <!-- <textarea class="form-control" name="description" value = "{{values.description}}" rows="3" placeholder="Describe the expense"></textarea> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlInput1">Amount</label>
@@ -39,7 +38,7 @@
         </div>
         <div class="form-group">
           <label for="exampleFormControlInput1">Date of Expense</label>
-          <input type="date" class="form-control" name="date" value="{{values.date}}">
+          <input type="date" class="form-control" name="date" value="{{values.date|date:'Y-m-d'}}">
         </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
