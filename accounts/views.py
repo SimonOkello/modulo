@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 import json
 from validate_email import validate_email
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 from .forms import CreateUserForm
 
@@ -43,7 +44,22 @@ class LoginView(View):
         return render(request, 'accounts/login.html', {})
 
     def post(self, request):
-        messages.success(request, 'Nice Try There!')
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+
+            if username and password:
+
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    messages.error(request, 'Incorrect Credentials!')
+                    return render(request, 'accounts/login.html', {})
+
+            messages.error(request, 'Please fill out all fields')
+            return render(request, 'accounts/login.html', {})
         return render(request, 'accounts/login.html', {})
 
 
@@ -58,3 +74,7 @@ def regiterUser(request):
             return redirect('login')
 
     return render(request, 'accounts/register.html', {'form': form})
+
+def userLogout(request):
+    logout(request)
+    return redirect('login')

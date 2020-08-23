@@ -1,0 +1,50 @@
+{% extends 'expenses/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+   <div class="row">
+       <div class="col-md-10">
+        <nav aria-label="breadcrumb mt-4">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Expenses</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Edit Expense</li>
+            </ol>
+          </nav>
+       </div>
+       <div class="col-md-2">
+        <a class="btn btn-danger" href="{% url 'delete-expense' expense.id %}" role="button">Delete</a>
+       </div>
+   </div>
+     
+      {% include 'expenses/_messages.html' %}
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Category</label>
+          <select class="form-control" name="category">
+            <option selected name="category" value="{{values.category}}">{{values.category}}</option>
+            {% for category in categories %}
+            <option name="category" value="{{category.name}}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Description</label>
+          <input type="text" class="form-control" name="description" value = "{{values.description}}" placeholder="Describe the expense">
+          <!-- <textarea class="form-control" name="description" value = "{{values.description}}" rows="3" placeholder="Describe the expense"></textarea> -->
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Amount</label>
+          <input type="number" class="form-control" name="amount" value = "{{values.amount}}" placeholder="How much you spent">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Date of Expense</label>
+          <input type="date" class="form-control" name="date" value="{{values.date}}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+
+</div>
+
+{% endblock %}

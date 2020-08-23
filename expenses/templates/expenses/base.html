@@ -56,7 +56,7 @@
       />
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
+          <a class="nav-link" href="{% url 'logout' %}">Sign out</a>
         </li>
       </ul>
     </nav>
@@ -65,7 +65,7 @@
       <div class="row">
         {% include 'expenses/_sidebar.html' %}
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           {% block content %}
 
           
@@ -95,5 +95,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js.map' %}"></script>
+    <script src="{% static 'js/expenseCharts.js' %}"></script>
+    <script src="{% static 'js/searchIncome.js' %}"></script>
+    <script src="{% static 'js/statistics.js' %}"></script>
+    <script src="{% static 'js/userStatistics.js' %}"></script>
   </body>
 </html>
