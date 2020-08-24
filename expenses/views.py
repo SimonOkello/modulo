@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+import datetime
 
 # Create your views here.
 from .models import Category, Expense
@@ -19,7 +20,7 @@ def index(request):
     page_number = request.GET.get('page', 1)
     page_obj = Paginator.get_page(paginator, page_number)
     context = {'categories': categories,
-               'expenses': expenses, 'page_obj': page_obj, 'currency':currency}
+               'expenses': expenses, 'page_obj': page_obj, 'currency': currency}
     return render(request, 'expenses/index.html', context)
 
 
@@ -100,3 +101,32 @@ def searchExpense(request):
 
         data = expenses.values()
         return JsonResponse(list(data), safe=False)
+
+
+def expenseCategorySummary(request):
+    todays_date = datetime.date.today()
+    six_months_ago = todays_date-datetime.timedelta(days=180)
+    expenses = Expense.objects.filter(owner=request.user,
+        date__gte=six_months_ago, date__lte=todays_date)
+    final_representation = {}
+
+    def get_category(expense):
+        return expense.category
+
+    category_list = list(set(map(get_category, expenses)))
+
+    def get_expense_category_amount(category):
+
+        amount = 0
+        filtered_by_category = expenses.filter(category=category)
+        for item in filtered_by_category:
+            amount += item.amount
+        return amount
+
+    for x in expenses:
+        for y in category_list:
+            final_representation[y] = get_expense_category_amount(y)
+    return JsonResponse({'expense_category_data':final_representation}, safe=False)
+
+def expenseSummary(request):
+    return render(request, 'expenses/expense_summary.html', {})

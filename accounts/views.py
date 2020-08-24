@@ -78,3 +78,8 @@ def regiterUser(request):
 def userLogout(request):
     logout(request)
     return redirect('login')
+
+
+def resetPassword(request):
+    email = request.POST.get('email')
+    return render(request, 'accounts/reset_password.html')

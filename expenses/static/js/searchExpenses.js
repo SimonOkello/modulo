@@ -25,6 +25,7 @@ searchField.addEventListener("keyup", (e) => {
 
         if (data.length === 0) {
           noResults.style.display = "block";
+          tableOutput.style.display = "none";
         } else {
           noResults.style.display = "none";
           data.forEach((item) => {

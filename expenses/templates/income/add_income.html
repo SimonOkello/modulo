@@ -1,0 +1,40 @@
+{% extends 'expenses/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+   
+      <nav aria-label="breadcrumb mt-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Income</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Income</li>
+        </ol>
+      </nav>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Source</label>
+          <select class="form-control" name="source">
+            {% for source in sources %}
+            <option name="source" value="{{source.name}}">{{source.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Description</label>
+          <textarea class="form-control" name="description" value = "{{values.description}}" rows="3" placeholder="Describe the income"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Amount</label>
+          <input type="number" class="form-control" name="amount" value = "{{values.amount}}" placeholder="How much you spent">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Date of Income</label>
+          <input type="date" class="form-control" name="date">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+</div>
+
+{% endblock %}

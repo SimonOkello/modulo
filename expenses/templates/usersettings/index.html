@@ -10,9 +10,11 @@
     {% csrf_token %}
     <div class="input-group">
         <select class="custom-select" name="currency" id="inputGroupSelect04" aria-label="Example select with button addon">
-          <option selected>Choose...</option>
+          {% if user_settings.currency %}
+          <option selected name="currency" value="{{user_settings.currency}}">{{user_settings.currency}}</option>
+          {% endif %}
           {% for currency in currencies %}
-          <option selected>{{currency.name}} - {{currency.value}}</option>
+          <option name="currency" value="{{currency.name}} - {{currency.value}}">{{currency.name}} - {{currency.value}}</option>
           {% endfor %}
         </select>
         <div class="input-group-append">
