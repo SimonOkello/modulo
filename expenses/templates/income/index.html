@@ -20,9 +20,17 @@
 <div class="container">
   {% if incomes.count %}
   <div class="row">
-    <div class="col-md-8"></div>
+    <div class="col-md-2">
+      <a class="btn btn-primary" href="{% url 'income-pdf' %}">Export PDF</a>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-success" href="{% url 'income-excel' %}">Export Excel</a>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-secondary" href="{% url 'income-csv' %}">Export Csv</a>
+    </div>
+    <div class="col-md-2"></div>
     <div class="col-md-4">
-
       <div class="form-group">
         <input type="text" class="form-control" id="searchField" placeholder="Search">
       </div>
@@ -94,5 +102,6 @@
 </div>
 </div>
 <script src="{% static 'js/searchIncome.js' %}"></script>
+
 
 {% endblock %}

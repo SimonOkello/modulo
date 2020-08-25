@@ -14,5 +14,6 @@
   }
 
 .expense-chart {
-    height: 500px !important;
+  width: 75%;
+  height: 555px;
   }

@@ -109,6 +109,8 @@ def searchExpense(request):
         data = expenses.values()
         return JsonResponse(list(data), safe=False)
 
+# EXPENSE SUMMARY
+
 
 def expenseCategorySummary(request):
     todays_date = datetime.date.today()
@@ -140,7 +142,8 @@ def expenseSummary(request):
     return render(request, 'expenses/expense_summary.html', {})
 
 
-def exportCsv(request):
+# REPORTS
+def exportExpenseCsv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses ' + \
         str(datetime.datetime.now()) + '.csv'
@@ -156,7 +159,7 @@ def exportCsv(request):
     return response
 
 
-def exportExcel(request):
+def exportExpenseExcel(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Expenses ' + \
         str(datetime.datetime.now()) + '.xlsx'
@@ -187,7 +190,7 @@ def exportExcel(request):
     return response
 
 
-def exportPdf(request):
+def exportExpensePdf(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; attachment; filename=Expenses ' + \
         str(datetime.datetime.now()) + '.pdf'
@@ -197,9 +200,10 @@ def exportPdf(request):
     expenses = Expense.objects.filter(owner=request.user)
     sum = expenses.aggregate(Sum('amount'))
 
-    html_string = render_to_string('expenses/pdf_printout.html', {'expenses':expenses, 'total':sum['amount__sum']})
+    html_string = render_to_string(
+        'expenses/pdf_printout.html', {'expenses': expenses, 'total': sum['amount__sum']})
 
-    html= HTML(string=html_string)
+    html = HTML(string=html_string)
 
     result = html.write_pdf()
 
@@ -209,4 +213,3 @@ def exportPdf(request):
         output = open(output.name, 'rb')
         response.write(output.read())
     return response
-

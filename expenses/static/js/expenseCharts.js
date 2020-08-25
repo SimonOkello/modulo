@@ -1,38 +1,33 @@
-var ctx = document.getElementById("myChart").getContext("2d");
-const getRandomType = () => {
-  const types = [
-    "bar",
-    "horizontalBar",
-    "pie",
-    "line",
-    "radar",
-    "doughnut",
-    "polarArea",
-  ];
-  return types[Math.floor(Math.random() * types.length)];
-};
-
-const displayChart = (data, labels) => {
+const renderChart = (data, labels) => {
+  let ctx = document.getElementById("expenseChart").getContext("2d");
+  const getRandomType = () => {
+    const types = ["bar", "line", "doughnut", "polarArea"];
+    return types[Math.floor(Math.random() * types.length)];
+  };
   const type = getRandomType();
-  var myChart = new Chart(ctx, {
-    type: type, // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+  let expenseChart = new Chart(ctx, {
+    type: type,
     data: {
       labels: labels,
       datasets: [
         {
-          label: `Amount (Last 6 months) (${type} View)`,
+          label: "Last 6 months expenses",
           data: data,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 99, 132,0.7)",
+            "rgba(255, 206, 86, 0.2)",
             "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
             "rgba(54, 162, 235, 1)",
-            "rgba(255, 99, 132,0.7)",
+            "rgba(255, 206, 86, 1)",
             "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
           ],
           borderWidth: 1,
         },
@@ -41,32 +36,24 @@ const displayChart = (data, labels) => {
     options: {
       title: {
         display: true,
-        text: "Expense  Distribution Per Category",
-        fontSize: 25,
-      },
-      legend: {
-        display: true,
-        position: "right",
-        labels: {
-          fontColor: "#000",
-        },
+        text: "Expenses per category",
       },
     },
   });
 };
 
-const getCategoryData = () => {
-  fetch("last_3months_stats")
+const getChartData = () => {
+  fetch("/expense_category")
     .then((res) => res.json())
-    .then((res1) => {
-      const results = res1.expenses_category_data;
-      const [labels, data] = [Object.keys(results), Object.values(results)];
-      console.log("data", data);
-      displayChart(data, labels);
-    });
+    .then((results) => {
+      const category_data = results.expense_category_data;
+      const [labels, data] = [
+        Object.keys(category_data),
+        Object.values(category_data),
+      ];
 
-  const data = [3000, 2000, 40000, 7000];
-  const labels = ["TRAVEL", "FOOD", "FRIENDS", "FAMILY"];
+      renderChart(data, labels);
+    });
 };
 
-document.onload = getCategoryData();
+document.onload = getChartData();

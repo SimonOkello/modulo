@@ -1,12 +1,22 @@
-const renderChart = (data, labels) => {
-  let ctx = document.getElementById("myChart").getContext("2d");
-  let myChart = new Chart(ctx, {
-    type: "doughnut",
+const renderIncomeChart = (data, labels) => {
+  let ctx = document.getElementById("incomeChart").getContext("2d");
+  const getRandomType = () => {
+    const types = [
+      "bar",
+      "line",
+      "doughnut",
+      "polarArea",
+    ];
+    return types[Math.floor(Math.random() * types.length)];
+  };
+  const type = getRandomType();
+  let incomeChart = new Chart(ctx, {
+    type: type,
     data: {
       labels: labels,
       datasets: [
         {
-          label: "Last 6 months expenses",
+          label: "Last 6 months income",
           data: data,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
@@ -31,24 +41,24 @@ const renderChart = (data, labels) => {
     options: {
       title: {
         display: true,
-        text: "Expenses per category",
+        text: "Income per source",
       },
     },
   });
 };
 
-const getChartData = () => {
-  fetch("/expense_category")
+const getIncomeChartData = () => {
+  fetch("/income/income_source")
     .then((res) => res.json())
     .then((results) => {
-      const category_data = results.expense_category_data;
+      const category_data = results.income_source_data;
       const [labels, data] = [
         Object.keys(category_data),
         Object.values(category_data),
       ];
 
-      renderChart(data, labels);
+      renderIncomeChart(data, labels);
     });
 };
 
-document.onload = getChartData();
+document.onload = getIncomeChartData();

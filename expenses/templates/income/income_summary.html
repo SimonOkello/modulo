@@ -6,19 +6,20 @@
     <div class="col-md-10">
       <nav aria-label="breadcrumb mt-4">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Expenses</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Expenses Summary</li>
+          <li class="breadcrumb-item"><a href="#">Income</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Income Summary</li>
         </ol>
       </nav>
     </div>
     <div class="col-md-2">
-      <a class="btn btn-primary" href="{% url 'home' %}" role="button">Back</a>
+      <a class="btn btn-primary" href="{% url 'income' %}" role="button">Back</a>
     </div>
   </div>
   <div class="expense-chart">
-<canvas id="expenseChart" width="640" height="480"></canvas>
+<canvas id="incomeChart" width="640" height="480"></canvas>
   </div>
 </div>
 
+<script src="{% static 'js/incomeCharts.js' %}"></script>
 
 {% endblock %}
