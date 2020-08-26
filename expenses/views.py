@@ -51,6 +51,10 @@ def addExpense(request):
         if not amount:
             messages.error(request, 'Amount is required')
             return render(request, 'expenses/add_expense.html', context)
+        
+        if not date:
+            messages.error(request, 'Date is required')
+            return render(request, 'expenses/add_expense.html', context)
 
         Expense.objects.create(owner=request.user, category=category,
                                description=description, amount=amount, date=date)

@@ -9,6 +9,7 @@
           <li class="breadcrumb-item active" aria-current="page">Add Expense</li>
         </ol>
       </nav>
+      {% include 'expenses/_messages.html' %}
       <form method="POST">
         {% csrf_token %}
         <div class="form-group">

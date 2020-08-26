@@ -1,8 +1,9 @@
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import views as auth_views
 
 
-from accounts.views import LoginView, regiterUser, UsernameValidationView, EmailValidationView,userLogout, resetPassword
+from accounts.views import LoginView, regiterUser, UsernameValidationView, EmailValidationView,userLogout
 urlpatterns = [
 
     path('validate_username',csrf_exempt(UsernameValidationView.as_view()), name = 'username-validate'),
@@ -10,5 +11,8 @@ urlpatterns = [
     path('register/', regiterUser, name = 'register'),
     path('login/', LoginView.as_view(), name = 'login'),
     path('logout', userLogout, name = 'logout'),
-    path('reset_password', resetPassword, name = 'reset-password' )
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name='accounts/password_reset_form.html'), name = 'password_reset'),
+    path('reset_email_sent/', auth_views.PasswordResetDoneView.as_view(), name = 'password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
+    path('reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name = 'password_reset_complete'),
 ]

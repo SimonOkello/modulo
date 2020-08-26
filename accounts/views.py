@@ -82,4 +82,4 @@ def userLogout(request):
 
 def resetPassword(request):
     email = request.POST.get('email')
-    return render(request, 'accounts/reset_password.html')
+    return render(request, 'accounts/password_reset_form.html')
