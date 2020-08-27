@@ -8,6 +8,7 @@ from validate_email import validate_email
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 from .forms import CreateUserForm
+from .decorators import unauthenticated_user
 
 
 class UsernameValidationView(View):
@@ -38,31 +39,28 @@ class EmailValidationView(View):
         return JsonResponse({'email_valid': True})
 
 
-class LoginView(View):
+@unauthenticated_user
+def LoginView(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
-    def get(self, request):
+        if username and password:
+
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Incorrect Credentials!')
+                return render(request, 'accounts/login.html', {})
+
+        messages.error(request, 'Please fill out all fields')
         return render(request, 'accounts/login.html', {})
-
-    def post(self, request):
-        if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
-
-            if username and password:
-
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('home')
-                else:
-                    messages.error(request, 'Incorrect Credentials!')
-                    return render(request, 'accounts/login.html', {})
-
-            messages.error(request, 'Please fill out all fields')
-            return render(request, 'accounts/login.html', {})
-        return render(request, 'accounts/login.html', {})
+    return render(request, 'accounts/login.html', {})
 
 
+@unauthenticated_user
 def regiterUser(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -74,6 +72,7 @@ def regiterUser(request):
             return redirect('login')
 
     return render(request, 'accounts/register.html', {'form': form})
+
 
 def userLogout(request):
     logout(request)
