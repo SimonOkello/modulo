@@ -20,14 +20,9 @@ from usersettings.models import userSetting
 
 @login_required(login_url='/auth/login/')
 def index(request):
-    sources = Source.objects.all()
     incomes = Income.objects.filter(owner=request.user)
     currency = userSetting.objects.get(user=request.user).currency
-    paginator = Paginator(incomes, 5)
-    page_number = request.GET.get('page', 1)
-    page_obj = Paginator.get_page(paginator, page_number)
-    context = {'sources': sources,
-               'incomes': incomes, 'page_obj': page_obj, 'currency': currency}
+    context = {'incomes': incomes,'currency': currency}
     return render(request, 'income/index.html', context)
 
 
@@ -63,7 +58,6 @@ def addIncome(request):
 def editIncome(request, income_id):
     sources = Source.objects.all()
     income = get_object_or_404(Income, pk=income_id)
-    sources = Source.objects.all()
     context = {'income': income, 'values': income, 'sources': sources}
     if request.method == 'POST':
         source = request.POST.get('source')

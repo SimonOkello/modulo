@@ -15,20 +15,30 @@ import xlwt
 
 # Create your views here.
 from .models import Category, Expense
+from income.models import Income
 from usersettings.models import userSetting
 
 
 @login_required(login_url='/auth/login/')
 def index(request):
-    categories = Category.objects.all()
+    expenses = Expense.objects.filter(owner=request.user)[:5]
+    incomes = Income.objects.filter(owner=request.user)[:5]
+    sum_of_expenses = Expense.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0.00
+    sum_of_income = Income.objects.all().aggregate(Sum('amount'))[
+        'amount__sum'] or 0.00
+    currency = userSetting.objects.get(user=request.user).currency
+    context = {'expenses': expenses, 'incomes': incomes, 'currency': currency,
+               'sum_of_expenses': sum_of_expenses, 'sum_of_income': sum_of_income}
+    return render(request, 'expenses/index.html', context)
+
+
+@login_required(login_url='/auth/login/')
+def expense(request):
     expenses = Expense.objects.filter(owner=request.user)
     currency = userSetting.objects.get(user=request.user).currency
-    paginator = Paginator(expenses, 5)
-    page_number = request.GET.get('page', 1)
-    page_obj = Paginator.get_page(paginator, page_number)
-    context = {'categories': categories,
-               'expenses': expenses, 'page_obj': page_obj, 'currency': currency}
-    return render(request, 'expenses/index.html', context)
+    context = {'expenses': expenses, 'currency': currency}
+    return render(request, 'expenses/expenses.html', context)
 
 
 @login_required(login_url='/auth/login/')
@@ -37,7 +47,7 @@ def addExpense(request):
     context = {'categories': categories, 'values': request.POST}
     if request.method == 'GET':
 
-        return render(request, 'expenses/add_expense.html', context)
+        return render(request, 'expenses/add-expense.html', context)
 
     if request.method == 'POST':
         category = request.POST.get('category')
@@ -47,27 +57,26 @@ def addExpense(request):
 
         if not description:
             messages.error(request, 'Description is required')
-            return render(request, 'expenses/add_expense.html', context)
+            return render(request, 'expenses/add-expense.html', context)
         if not amount:
             messages.error(request, 'Amount is required')
-            return render(request, 'expenses/add_expense.html', context)
-        
+            return render(request, 'expenses/add-expense.html', context)
+
         if not date:
             messages.error(request, 'Date is required')
-            return render(request, 'expenses/add_expense.html', context)
+            return render(request, 'expenses/add-expense.html', context)
 
         Expense.objects.create(owner=request.user, category=category,
                                description=description, amount=amount, date=date)
         messages.success(request, 'An expense was created successfully')
-        return redirect('home')
-    return render(request, 'expenses/add_expense.html', context)
+        return redirect('expenses')
+    return render(request, 'expenses/add-expense.html', context)
 
 
 @login_required(login_url='/auth/login/')
 def editExpense(request, expense_id):
     categories = Category.objects.all()
     expense = get_object_or_404(Expense, pk=expense_id)
-    categories = Category.objects.all()
     context = {'expense': expense, 'values': expense, 'categories': categories}
     if request.method == 'POST':
         category = request.POST.get('category')
@@ -77,10 +86,10 @@ def editExpense(request, expense_id):
 
         if not description:
             messages.error(request, 'Description is required')
-            return render(request, 'expenses/edit_expense.html', context)
+            return render(request, 'expenses/edit-expense.html', context)
         if not amount:
             messages.error(request, 'Amount is required')
-            return render(request, 'expenses/edit_expense.html', context)
+            return render(request, 'expenses/edit-expense.html', context)
 
         expense.owner = request.user
         expense.category = category
@@ -89,16 +98,16 @@ def editExpense(request, expense_id):
         expense.date = date
         expense.save()
         messages.success(request, 'An expense was updated successfully')
-        return redirect('home')
+        return redirect('expenses')
 
-    return render(request, 'expenses/edit_expense.html', context)
+    return render(request, 'expenses/edit-expense.html', context)
 
 
 @login_required(login_url='/auth/login/')
 def deleteExpense(request, expense_id):
     expense = get_object_or_404(Expense, pk=expense_id)
     expense.delete()
-    return redirect('home')
+    return redirect('expenses')
 
 
 def searchExpense(request):

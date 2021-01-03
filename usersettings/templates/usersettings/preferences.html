@@ -1,0 +1,82 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %}
+  Preferences
+{% endblock title %}
+{% block content %}
+	<!-- Page Wrapper -->
+	<div class="page-wrapper">
+		<div class="content container-fluid">
+			<div class="page-header">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3 class="page-title">Settings</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a>
+							</li>
+							<li class="breadcrumb-item active">Preferences</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xl-3 col-md-4">
+				
+					<!-- Settings Menu -->
+					{% include 'includes/_settings-menu.html' %}
+					<!-- /Settings Menu -->
+					
+				</div>
+				
+				<div class="col-xl-9 col-md-8">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title">Preferences</h5>
+						</div>
+						<div class="card-body">
+							<!-- Form -->
+							<form method="post">
+								{% csrf_token %}
+								<div class="row form-group">
+									<label for="currencyLabel" class="col-sm-3 col-form-label input-label">Currency</label>
+									<div class="col-sm-9">
+										<select class="select" id="currencyLabel" name="currency">
+											{% if user_settings.currency %}
+											<option selected name="currency" value="{{user_settings.currency}}">{{user_settings.currency}}</option>
+											{% endif %}
+											{% for currency in currencies %}
+											<option name="currency" value="{{currency.name}} - {{currency.value}}">{{currency.name}} - {{currency.value}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="text-right">
+									<button type="submit" class="btn btn-primary">Save Changes</button>
+								</div>
+							</form>
+							<!-- /Form -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Page Wrapper -->
+<!-- jQuery -->
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<!-- Feather Icon JS -->
+<script src="{% static 'js/feather.min.js' %}"></script>
+
+<!-- Slimscroll JS -->
+<script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- Select2 JS -->
+<script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+<!-- Custom JS -->
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

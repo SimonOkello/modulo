@@ -1,0 +1,89 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %}
+  Edit Category
+{% endblock title %}
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<div class="content container-fluid">
+	
+		<!-- Page Header -->
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-6">
+					<h3 class="page-title">Settings</h3>
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Edit Category</li>
+					</ul>
+				</div>
+            </div>
+            {% include 'expenses/_messages.html' %}
+		</div>
+		<!-- /Page Header -->
+	
+		<div class="row">
+			<div class="col-xl-3 col-md-4">
+			
+				<!-- Settings Menu -->
+				{% include 'includes/_settings-menu.html' %}
+				<!-- /Settings Menu -->
+				
+			</div>
+			
+			<div class="col-xl-9 col-md-8">                
+                <div class="card">
+                    <div class="card-header">
+						<div class="row">
+							<div class="col">
+								<h5 class="card-title">Edit Category</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Name:</label>
+										<input type="text" name="name" value = "{{obj.name}}" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Note:</label>
+										<textarea rows="5" cols="5" name="notes" class="form-control">{{obj.notes}}</textarea>
+									</div>
+									<div class="text-right mt-4">
+										<button type="submit" class="btn btn-primary">Save Changes</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Page Wrapper -->
+<!-- jQuery -->
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<!-- Feather Icon JS -->
+<script src="{% static 'js/feather.min.js' %}"></script>
+
+<!-- Slimscroll JS -->
+<script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- Select2 JS -->
+<script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+<!-- Custom JS -->
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

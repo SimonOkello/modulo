@@ -1,0 +1,97 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %}
+  Edit Income
+{% endblock title %}
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<div class="content container-fluid">
+	
+		<!-- Page Header -->
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="page-title">Income</h3>
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item"><a href="{% url 'income' %}">Income</a>
+						</li>
+						<li class="breadcrumb-item active">Edit Income</li>
+					</ul>
+				</div>
+			</div>
+			{% include 'expenses/_messages.html' %}
+		</div>
+		<!-- /Page Header -->
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Source:</label>
+										<select class="select" name="source">
+											<option selected name="source" value="{{values.source}}">{{values.source}}</option>
+											{% for source in sources %}
+											<option name="source" value="{{source.name}}">{{source.name}}</option>
+											{% endfor %}
+										  </select>
+									</div>
+									<div class="form-group">
+										<label>Note:</label>
+										<textarea rows="5" cols="5" name="description" placeholder="Describe the income" class="form-control">{{values.description}}</textarea>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Date:</label>
+										<div class="cal-icon">
+											<input class="form-control datetimepicker" type="text" name="date" value="{{values.date|date:'Y-m-d'}}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label>Amount:</label>
+										<input type="text" name="amount" value = "{{values.amount}}" placeholder="How much you earned" class="form-control">
+									</div>
+									<div class="text-right mt-4">
+										<button type="submit" class="btn btn-primary">Save Changes</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Page Wrapper -->
+<!-- jQuery -->
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+		
+<!-- Bootstrap Core JS -->
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<!-- Feather Icon JS -->
+<script src="{% static 'js/feather.min.js' %}"></script>
+
+<!-- Slimscroll JS -->
+<script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<!-- Select2 JS -->
+<script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+
+<!-- Datepicker Core JS -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+
+<!-- Custom JS -->
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

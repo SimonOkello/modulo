@@ -1,0 +1,29 @@
+<div class="widget settings-menu">
+    <ul>
+        <li class="nav-item">
+            <a href="{% url 'settings' %}" class="nav-link active">
+                <i class="far fa-user"></i> <span>Profile Settings</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'user-preference' %}" class="nav-link">
+                <i class="fas fa-cog"></i> <span>Preferences</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'category-setting' %}" class="nav-link">
+                <i class="far fa-list-alt"></i> <span>Expense Category</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'change-password' %}" class="nav-link">
+                <i class="fas fa-unlock-alt"></i> <span>Change Password</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'delete-account' %}" class="nav-link">
+                <i class="fas fa-ban"></i> <span>Delete Account</span>
+            </a>
+        </li>
+    </ul>
+</div>

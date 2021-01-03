@@ -1,3 +1,6 @@
+'use strict';
+
+$(document).ready(function() {
 const renderChart = (data, labels) => {
   let ctx = document.getElementById("expenseChart").getContext("2d");
   const getRandomType = () => {
@@ -57,3 +60,4 @@ const getChartData = () => {
 };
 
 document.onload = getChartData();
+});

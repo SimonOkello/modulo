@@ -6,11 +6,13 @@ from django.utils.timezone import now
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    notes = models.TextField()
     class Meta:
         verbose_name_plural = 'Categories'
     
     def __str__(self):
         return self.name
+
 
 
 class Expense(models.Model):
