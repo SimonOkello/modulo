@@ -18,7 +18,7 @@ Pyphen==0.10.0
 python-decouple==3.3
 pytz==2020.5
 six==1.15.0
-sqlparse==0.4.1
+sqlparse==0.4.2
 tinycss2==1.1.0
 toml==0.10.1
 validate-email==1.3
